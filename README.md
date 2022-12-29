@@ -39,10 +39,10 @@ $ pnpm install
 $ pnpm run start
 
 # watch mode
-$ pnpm run start:dev
+$ pnpm run dev
 
 # production mode
-$ pnpm run start:prod
+$ pnpm run prod
 ```
 
 ## Test
@@ -52,10 +52,10 @@ $ pnpm run start:prod
 $ pnpm run test
 
 # e2e tests
-$ pnpm run test:e2e
+$ pnpm run e2e
 
 # test coverage
-$ pnpm run test:cov
+$ pnpm run cov
 ```
 
 ## Support
