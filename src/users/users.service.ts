@@ -10,7 +10,7 @@ function getRandomInt(max: number) {
 export class UsersService {
   private readonly users = new Map<string, User>;
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     const id = getRandomInt(100).toString()
     this.users.set(id, {
       id,
@@ -22,7 +22,7 @@ export class UsersService {
     };
   }
 
-  findAll() {
+  async findAll() {
     const userArr: User[] = []
     this.users.forEach(user => { userArr.push(user); });
     return {
@@ -30,13 +30,13 @@ export class UsersService {
     };
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     const user = this.users.get(id);
     if (user === undefined) { throw new NotFoundException; }
     return user
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = this.users.get(id);
     if (user === undefined) { throw new NotFoundException; }
     this.users.set(id, { ...user, ...updateUserDto });
@@ -46,7 +46,7 @@ export class UsersService {
     };
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     const res = this.users.delete(id);
     if (res === false) throw new NotFoundException;
     return {
