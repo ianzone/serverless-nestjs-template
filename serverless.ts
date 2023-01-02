@@ -17,13 +17,6 @@ const serverlessConfiguration: AWS = {
       service: '${self:service}',
     },
     logRetentionInDays: 60,
-    // iamRoleStatements: [
-    //   {
-    //     Effect: 'Allow',
-    //     Action: 's3:GetObject',
-    //     Resource: bucketARN,
-    //   },
-    // ],
     environment: {
       STAGE: '${sls:stage}',
       NODE_OPTIONS: '--enable-source-maps',
@@ -48,15 +41,27 @@ const serverlessConfiguration: AWS = {
     },
   },
 
-  plugins: ['serverless-offline'],
+  plugins: ['serverless-esbuild', 'serverless-offline'],
 
-  // custom: {
-  //   prune: {
-  //     automatic: true,
-  //     includeLayers: true,
-  //     number: 3,
-  //   },
-  // },
+  custom: {
+    esbuild: {
+      // do not minify, because it will break the swagger,
+      packager: 'pnpm',
+      external: ["@nestjs/swagger"],
+      exclude: [
+        "class-transformer/storage",
+        "cache-manager",
+        "@nestjs/websockets/socket-module",
+        "@nestjs/microservices/microservices-module",
+        "@nestjs/microservices"
+      ]
+    },
+    // prune: {
+    //   automatic: true,
+    //   includeLayers: true,
+    //   number: 5,
+    // },
+  },
 };
 
 module.exports = serverlessConfiguration;
