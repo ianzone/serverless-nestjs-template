@@ -41,7 +41,11 @@ const serverlessConfiguration: AWS = {
     },
   },
 
-  plugins: ['serverless-esbuild', 'serverless-offline'],
+  plugins: [
+    'serverless-esbuild',
+    'serverless-prune-plugin',
+    'serverless-offline'
+  ],
 
   custom: {
     esbuild: {
@@ -56,11 +60,11 @@ const serverlessConfiguration: AWS = {
         "@nestjs/microservices"
       ]
     },
-    // prune: {
-    //   automatic: true,
-    //   includeLayers: true,
-    //   number: 5,
-    // },
+    prune: { // https://github.com/claygregory/serverless-prune-plugin
+      automatic: true,
+      includeLayers: true,
+      number: 5,
+    },
   },
 };
 
