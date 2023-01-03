@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,6 +20,12 @@ export class UsersController {
   @Get()
   async findAll() {
     return await this.usersService.findAll();
+  }
+
+  @Version('1')
+  @Get()
+  async findAll1() {
+    return 'version 1'
   }
 
   @Get(':id')
