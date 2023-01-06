@@ -6,12 +6,14 @@ import { AppModule } from './app.module';
 function setupVersioning(app: INestApplication) {
   app.enableVersioning({
     type: VersioningType.URI,
-    // defaultVersion: ['1', '2'],
   })
 }
 
 function setupValidation(app: INestApplication) {
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    transformOptions: { enableImplicitConversion: true },
+  }));
 }
 
 function setupSwagger(app: INestApplication) {

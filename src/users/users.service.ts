@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto, QueryUserDto, UpdateUserDto } from './dto';
 import { User } from './entities/user.entity';
 
 function getRandomInt(max: number) {
@@ -22,10 +21,32 @@ export class UsersService {
     };
   }
 
-  async findAll() {
+  async findAll(query: QueryUserDto) {
     const userArr: User[] = []
-    this.users.forEach(user => { userArr.push(user); });
+    // this.users.forEach(user => { userArr.push(user); });
+    const itr = this.users.entries()
+    const keys = this.users.keys()
+    let next
+    let item: any
+    let validPage = false
+    let pageSize = query.pageSize || -1
+    while (item = itr.next().value) {
+      next = keys.next().value
+      if (pageSize > 0 || pageSize <= -1) {
+        if (item[0] === query.page || query.page === undefined) {
+          validPage = true;
+        }
+        if (validPage) {
+          userArr.push(item[1]);
+          pageSize--
+        }
+      } else {
+        break
+      }
+    }
+
     return {
+      next,
       users: userArr
     };
   }

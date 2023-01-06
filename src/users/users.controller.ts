@@ -1,7 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Redirect, Version } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto, QueryUserDto, UpdateUserDto } from './dto';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
@@ -14,19 +13,24 @@ export class UsersController {
    */
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
+    console.log(createUserDto)
     return await this.usersService.create(createUserDto);
   }
 
   @Get()
-  async findAll() {
-    return await this.usersService.findAll();
+  async findAll(@Query() query: QueryUserDto) {
+    console.log(query)
+    return await this.usersService.findAll(query);
   }
 
   @Version('1')
   @Get()
-  async findAll1() {
-    return 'version 1'
-  }
+  @Redirect(`${process.env.STAGE ? `/${process.env.STAGE}` : ''}/v2/users`, 302)
+  async findAll1() { return 'version 1' }
+
+  @Version('2')
+  @Get()
+  async findAll2() { return 'version 2' }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {

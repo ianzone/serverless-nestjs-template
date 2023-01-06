@@ -6,7 +6,7 @@ import {
 export class CreateUserDto {
   /**
   * Sign up email
-  * @example 'test@example.com''
+  * @example 'test@example.com'
   */
   @IsEmail()
   email: string;
