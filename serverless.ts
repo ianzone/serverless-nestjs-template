@@ -28,6 +28,9 @@ const serverlessConfiguration: AWS = {
   },
 
   functions: {
+    authorizer: {
+      handler: 'dist/authorizer.handler'
+    },
     api: {
       handler: 'dist/lambda.handler',
       events: [
@@ -35,6 +38,8 @@ const serverlessConfiguration: AWS = {
           http: {
             method: 'ANY',
             path: '{proxy+}',
+            authorizer: 'authorizer',
+            cors: true, // https://www.serverless.com/framework/docs/providers/aws/events/apigateway#enabling-cors
           }
         },
       ]
