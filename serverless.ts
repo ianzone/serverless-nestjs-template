@@ -36,9 +36,23 @@ const serverlessConfiguration: AWS = {
       events: [
         {
           http: {
+            method: 'GET',
+            path: '/docs-json',
+            authorizer: {
+              name: 'authorizer',
+              type: 'REQUEST',
+              identitySource: 'method.request.querystring.token'
+            }
+          }
+        },
+        {
+          http: {
             method: 'ANY',
             path: '{proxy+}',
-            authorizer: 'authorizer',
+            authorizer: {
+              name: 'authorizer',
+              type: 'REQUEST',
+            },
             cors: true, // https://www.serverless.com/framework/docs/providers/aws/events/apigateway#enabling-cors
           }
         },
