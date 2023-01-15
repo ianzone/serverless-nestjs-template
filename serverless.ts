@@ -37,7 +37,7 @@ const serverlessConfiguration: AWS = {
         {
           http: {
             method: 'GET',
-            path: '/docs-json',
+            path: '/docs-json', // use Swagger UI Express to serve the docs https://github.com/scottie1984/swagger-ui-express
             authorizer: {
               name: 'authorizer',
               type: 'REQUEST',
