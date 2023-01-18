@@ -36,23 +36,8 @@ const serverlessConfiguration: AWS = {
       events: [
         {
           http: {
-            method: 'GET',
-            path: '/docs-json', // use Swagger UI Express to serve the docs https://github.com/scottie1984/swagger-ui-express
-            authorizer: {
-              name: 'authorizer',
-              type: 'REQUEST',
-              identitySource: 'method.request.querystring.token'
-            }
-          }
-        },
-        {
-          http: {
             method: 'ANY',
             path: '{proxy+}',
-            authorizer: {
-              name: 'authorizer',
-              type: 'REQUEST',
-            },
             cors: true, // https://www.serverless.com/framework/docs/providers/aws/events/apigateway#enabling-cors
           }
         },
