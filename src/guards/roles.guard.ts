@@ -3,6 +3,8 @@ import { Reflector } from '@nestjs/core';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 import { decomposeJwt } from "aws-jwt-verify/jwt";
 import { CognitoAccessTokenPayload } from 'aws-jwt-verify/jwt-model';
+import { ROLES_KEY } from './roles.decorator';
+import { Role } from './roles.enum';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -12,7 +14,7 @@ export class RolesGuard implements CanActivate {
 
     // if (process.env.IS_OFFLINE === 'true') return true;
 
-    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+    const roles = this.reflector.get<Role[]>(ROLES_KEY, context.getHandler());
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization?.split(' ')[1];
     if (token === undefined) throw new UnauthorizedException();
