@@ -2,7 +2,6 @@ import { INestApplication, ValidationPipe, VersioningType } from '@nestjs/common
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { config } from './config';
 
 function setupVersioning(app: INestApplication) {
   app.enableVersioning({
@@ -30,7 +29,7 @@ function setupSwagger(app: INestApplication) {
     })
     .build();
   const document = SwaggerModule.createDocument(app, docs);
-  SwaggerModule.setup(config.swagger.path, app, document);
+  SwaggerModule.setup('/docs', app, document);
 }
 
 export async function createApp() {

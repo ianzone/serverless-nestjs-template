@@ -28,9 +28,6 @@ const serverlessConfiguration: AWS = {
   },
 
   functions: {
-    authorizer: {
-      handler: 'dist/authorizer.handler'
-    },
     api: {
       handler: 'dist/lambda.handler',
       events: [

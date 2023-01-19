@@ -12,7 +12,7 @@ export class RolesGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
 
-    // if (process.env.IS_OFFLINE === 'true') return true;
+    if (process.env.IS_OFFLINE === 'true') return true;
 
     const roles = this.reflector.get<Role[]>(ROLES_KEY, context.getHandler());
     const request = context.switchToHttp().getRequest();
