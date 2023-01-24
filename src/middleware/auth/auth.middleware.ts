@@ -41,6 +41,7 @@ export class AuthMiddleware implements NestMiddleware {
 
       const payload = await this.jwtVerifier.verify(jwt)
       this.jwtCache.add(jwt)
+      this.logger.warn('jwtCache may cause memory leak when not using aws lambda')
 
       modifyReq(req, payload, this.secretsCache)
 
