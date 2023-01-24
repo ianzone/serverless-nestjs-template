@@ -11,9 +11,9 @@ export class GroupsGuard implements CanActivate {
 
     if (process.env.IS_OFFLINE === 'true') return true;
 
-    const groups = this.reflector.get<Group[]>(GROUPS_KEY, context.getHandler());
+    const groups = this.reflector.get<Group[] | undefined>(GROUPS_KEY, context.getHandler());
 
-    if (groups.length) {
+    if (groups?.length) {
       const groupSet = context.switchToHttp().getRequest<AuthReq>().user.groupSet;
       if (groupSet.size) {
         for (const group of groups) {

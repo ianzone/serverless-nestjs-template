@@ -1,6 +1,7 @@
 import { INestApplication, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 function setupVersioning(app: INestApplication) {
@@ -37,5 +38,8 @@ export async function createApp() {
   setupVersioning(app)
   setupValidation(app)
   setupSwagger(app);
+  app.use(helmet());
+  app.enableCors();
+  app.useLogger(['log'])
   return app;
 }

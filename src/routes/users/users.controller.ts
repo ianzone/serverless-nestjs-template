@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Redirect, UseGuards, Version } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Query, Redirect, UseGuards, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Group, Groups, GroupsGuard } from 'src/guards';
 import { CreateUserDto, QueryUserDto, UpdateUserDto } from './dto';
@@ -9,6 +9,8 @@ import { UsersService } from './users.service';
 @Controller('users')
 @UseGuards(GroupsGuard)
 export class UsersController {
+  logger = new Logger(UsersController.name)
+
   constructor(private readonly usersService: UsersService) { }
 
   /**
@@ -16,14 +18,14 @@ export class UsersController {
    */
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto)
+    this.logger.log(createUserDto)
     return await this.usersService.create(createUserDto);
   }
 
   @Groups(Group.admin)
   @Get()
   async findAll(@Query() query: QueryUserDto) {
-    console.log(query)
+    this.logger.log(query)
     return await this.usersService.findAll(query);
   }
 

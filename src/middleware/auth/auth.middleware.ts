@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 import { decomposeJwt } from 'aws-jwt-verify/jwt';
 import { CognitoAccessTokenPayload } from 'aws-jwt-verify/jwt-model';
@@ -9,6 +9,7 @@ import { AppSecrets, AuthReq, JwtVerifier, SecretsCache, VerifierProps } from '.
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
 
+  logger = new Logger(AuthMiddleware.name);
   secretsCache: SecretsCache
   jwtCache = new Set<string>;
   jwtVerifier: JwtVerifier
@@ -45,7 +46,7 @@ export class AuthMiddleware implements NestMiddleware {
 
       return next();
     } catch (err) {
-      console.log(err.message)
+      this.logger.error(err.message)
       throw new UnauthorizedException()
     }
   }
