@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import constants from 'src/constants';
 import { AuthReq } from 'src/middleware';
 import { Group, GROUPS_KEY } from './groups.decorator';
 
@@ -9,7 +10,7 @@ export class GroupsGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
 
-    if (process.env.IS_OFFLINE === 'true') return true;
+    if (constants.bypassAuth) return true;
 
     const groups = this.reflector.get<Group[] | undefined>(GROUPS_KEY, context.getHandler());
 

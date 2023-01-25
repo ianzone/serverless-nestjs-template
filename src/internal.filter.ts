@@ -7,10 +7,10 @@ export class InternalFilter extends BaseExceptionFilter {
     if (!(exception instanceof HttpException)) {
       const ctx = host.switchToHttp();
       const req = ctx.getRequest();
-      console.log(req.params)
-      console.log(req.query)
-      console.log(req.headers)
-      console.log(req.body)
+      console.error(req.params)
+      console.error(req.query)
+      console.error(req.headers)
+      console.error(req.body)
     }
     super.catch(exception, host);
   }

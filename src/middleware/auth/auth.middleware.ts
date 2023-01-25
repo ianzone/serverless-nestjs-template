@@ -3,6 +3,7 @@ import { CognitoJwtVerifier } from 'aws-jwt-verify';
 import { decomposeJwt } from 'aws-jwt-verify/jwt';
 import { CognitoAccessTokenPayload } from 'aws-jwt-verify/jwt-model';
 import { NextFunction, Response } from 'express';
+import constants from 'src/constants';
 import { fetchSecrets } from './fetchSecrets';
 import { AppSecrets, AuthReq, JwtVerifier, SecretsCache, VerifierProps } from './interfaces';
 
@@ -15,6 +16,8 @@ export class AuthMiddleware implements NestMiddleware {
   jwtVerifier: JwtVerifier
 
   async use(req: AuthReq, res: Response, next: NextFunction) {
+    if (constants.bypassAuth) return next();
+
     try {
       const jwt = req.headers.authorization?.split('Bearer ')[1];
       if (!jwt) throw new Error('missing authorization')

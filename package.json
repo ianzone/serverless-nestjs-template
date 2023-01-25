@@ -9,7 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest build && sls offline",
-    "dev": "nest start --watch",
+    "dev": "NODE_ENV=dev nest start --watch",
     "offline": "IS_OFFLINE=true nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "sls offline --stage prod",
