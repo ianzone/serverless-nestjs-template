@@ -31,7 +31,7 @@ export class UsersController {
 
   @Version('1')
   @Get()
-  @Redirect(`${process.env.STAGE ? `/${process.env.STAGE}` : ''}/v2/users`, 302)
+  @Redirect(`${process.env.STAGE_PATH_PREFIX || ''}/v2/users`, 302)
   async findAll1() { return 'version 1' }
 
   @Version('2')
