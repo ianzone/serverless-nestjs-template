@@ -11,6 +11,7 @@ const serverlessConfiguration: AWS = {
     name: 'aws',
     runtime: 'nodejs18.x',
     architecture: 'arm64',
+    timeout: 29, // the maximum api gateway timeout is 29s
     tags: {
       developer: 'devName',
       project: '${self:app}',
